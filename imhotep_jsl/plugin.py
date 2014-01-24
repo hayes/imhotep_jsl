@@ -10,8 +10,14 @@ class JSL(Tool):
 
     def invoke(self, dirname, filenames=set()):
         retval = defaultdict(lambda: defaultdict(list))
-
-        cmd = 'find %s -name "*.js" | xargs jsl' % dirname
+        if len(filenames) == 0:
+            cmd = 'find %s -name "*.js" | xargs jsl' % dirname
+        else:
+            js_files = []
+            for filename in filenames:
+                if '.js' in filename:
+                    js_files.append("%s/%s" % (dirname, filename))
+            cmd = 'jsl %s' % ' '.join(js_files)
         output = self.executor(cmd)
         for line in output.split('\n'):
             match = self.regex.search(line)
