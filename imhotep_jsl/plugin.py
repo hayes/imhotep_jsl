@@ -8,7 +8,7 @@ class JSL(Tool):
         r'^(?P<type>[WE]) '
         r'(?P<filename>.*?) L(?P<line_number>\d+): (?P<message>.*)$')
 
-    def invoke(self, dirname, filenames=set()):
+    def invoke(self, dirname, filenames=set(), linter_configs=set()):
         retval = defaultdict(lambda: defaultdict(list))
         if len(filenames) == 0:
             cmd = 'find %s -name "*.js" | xargs jsl' % dirname
